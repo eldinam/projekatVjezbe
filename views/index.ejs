@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+      var timer;
+      function  startTimer() {
+        timer = setInterval(function () {
+          console.log("Pozivam ajax");
+          $.ajax({
+            url: "/dajBroj"
+          }).done(function (data) {
+              console.log(marker);
+              setMarkers(map, data.lat, data.lon);
+            console.log("Zavrsen ajax poziv");
+          });
+        }, 5000);
+      }
+    </script>
+
+    <style>
+      #map {
+        height: 500px;
+        width: 100%;
+      }
+    </style>
+
+
+    <script>
+
+      var a = Math.floor((Math.random() * 10) + 40);
+      var b = Math.floor((Math.random() * 5) + 15);
+
+
+      //var latitude = new Array(, , , , , , , , , , , );
+      //var longitude = new Array(, , , , , , , , , , , );
+
+      var lokacije = [
+        ['Grbavica', 43.850282, 18.392092, 4],
+        ['Hrasno', 43.849663, 18.382650, 5],
+        ['Kampus', 43.856316, 18.395834, 3],
+        ['Soukbunar', 43.850777, 18.416811, 2],
+        ['Soukbunar', 43.850777, 18.416811, 1],
+        ['Skenderija', 43.854243, 18.414923, 4],
+        ['Skenderija', 43.854243, 18.414923, 5],
+        ['Mejtas', 43.861175, 18.420759, 3],
+        ['Alifkovac', 43.856904, 18.437410, 2],
+        ['Cengic Vila', 43.851086, 18.373037, 1],
+        ['Cengic Vila 2', 43.847311, 18.369518, 2],
+        ['Aneks', 43.842235, 18.370634, 1]
+      ];
+
+      var marker;
+      var seconds = 2000;
+      var brojac = 0;
+      var myVar;
+      var map;
+
+      function initMap() {
+        var centar = {lat: 43.856100, lng: 18.413893};
+
+
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 14,
+          center: centar
+        });
+
+
+        marker = new google.maps.Marker({
+          position: {lat: lokacije[5][1], lng: lokacije[5][2]},
+          map: map,
+          //icon: image,
+          //shape: shape,
+          title: lokacije[5][0],
+          zIndex: lokacije[5][3]
+        });
+
+        //myVar = setInterval(function(){ setMarkers(map); }, seconds);
+
+      }
+
+
+      function setMarkers(map, a, b) {
+        // Adds markers to the map.
+        brojac ++;
+        marker.setMap(null);
+        var x = Math.floor(Math.random()*(lokacije.length));
+        console.log("brojac = " + brojac);
+
+        var image = {
+          url: 'pokemon.png'
+        };
+        var lokacija = lokacije[x];
+        marker = new google.maps.Marker({
+          position: {lat: a, lng: b},
+          map: map,
+          title: lokacija[0],
+          zIndex: lokacija[3]
+        });
+
+
+        if(brojac == 25) {
+          console.info("Uslo");
+          clearInterval(myVar);
+        }
+      }
+
+    </script>
+
+  </head>
+
+  <body>
+    <input type="button" value="Start" onclick="startTimer()"/>
+
+    <div id="map"></div>
+
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJkRjblQCTtxA5q9ErHOLqL-Eo_Ce3NbA&callback=initMap">
+    </script>
+
+  </body>
+</html>
