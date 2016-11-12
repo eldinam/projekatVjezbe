@@ -8,20 +8,21 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/dajBroj', function (req, res, next) {
-    var sjever = 50;
-    var jug = 80;
-    var istok = 20;
-    var zapad = 40;
+    var sjever = 43.865506;
+    var jug = 43.839387;
+    var istok = 18.443676;
+    var zapad = 18.348404;
     var poke = (Math.random() * 4 + 1) >>> 0;
 
     res.send({
             pokemons: pokemons[poke].name,
-            lat: 43.850282 + Math.random() * 0.03,
-            lon: 18.392092 + Math.random() * 0.03
+            //lat: 43.850282 + Math.random() * 0.03,
+            //lon: 18.392092 + Math.random() * 0.03
+            lat: Math.random() * (jug - sjever) + sjever,
+            lon: Math.random() * (zapad - istok) + istok
         }
     )
 });
-
 
 
 module.exports = router;
